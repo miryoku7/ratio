@@ -13,9 +13,7 @@ const Form = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
   const addNameRef = useRef<HTMLInputElement>(null);
   const [addName, setAddName] = useState<string>("");
-  const [data, setData] = useState<DataItem[]>([
-    { name: "John", value: 3 },
-  ]);
+  const [data, setData] = useState<DataItem[]>([]);
   const total = data.reduce((acc, cur) => acc + cur.value, 0);
   const values = useMemo(() => {
     return data.map((d) => {
@@ -27,6 +25,10 @@ const Form = () => {
   }, [data]);
 
   useEffect(() => {
+    // 初回レンダリング時には実行しない
+    if (data.length === 0) {
+      return;
+    }
     setLocalStorage("data", data);
   }, [data]);
 
